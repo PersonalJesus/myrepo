@@ -1,0 +1,38 @@
+---
+  - hosts: "all"
+    become: true
+    vars:
+      username: #username
+    tasks:
+      -
+        name: 'create user'
+        user:
+          name: '{{ username }}'
+          state: present
+          shell: /bin/bash
+          system: no
+          createhome: yes
+      -
+        name: 'create .ssh directory'
+        file:
+          path: '/home/{{ username }}/.ssh'
+          state: directory
+          owner: '{{ username }}'
+          group: '{{ username }}'
+          mode: 0700
+      -
+        name: 'add ssh key'
+        copy:
+          src: '/etc/ansible/roles/common/files/{{ username }}.key'
+          dest: '/home/{{ username }}/.ssh/authorized_keys'
+          owner: '{{ username }}'
+          group: '{{ username }}'
+          mode: 0600
+      -
+        name: 'grant sudo access w/o password'
+        lineinfile:
+          path: etc/sudoers
+          state: present
+          regexp: '{{ username }} ALL='
+          line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
+          validate: '/usr/sbin/visudo -cf %s'

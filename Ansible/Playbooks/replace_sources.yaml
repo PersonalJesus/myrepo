@@ -1,0 +1,11 @@
+- name: Remove file 
+  file:
+    path: /etc/apt/sources.list
+    state: absent
+- name: Copy file with owner and permissions
+  copy:
+    src: /etc/ansible/sources.list
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: '0644'

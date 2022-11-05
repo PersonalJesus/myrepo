@@ -1,0 +1,45 @@
+---
+  - hosts: all
+    become: true
+    vars:
+      username: username
+    tasks:
+      -
+        name: 'create user'
+        user:
+          name: '{{ username }}'
+          state: present
+          shell: /bin/bash
+          system: no
+          createhome: yes
+          groups: astra-admin
+        when: ansible_os_family == "Astra Linux"
+
+      -
+        name: 'create user'
+        user:
+          name: '{{ username }}'
+          state: present
+          shell: /bin/bash
+          system: no
+          createhome: yes
+          groups: wheel
+        when: ansible_os_family == "RedHat"
+
+      -
+        name: 'create .ssh directory'
+        file:
+          path: '/home/{{ username }}/.ssh'
+          state: directory
+          owner: '{{ username }}'
+          group: '{{ username }}'
+          mode: 0700
+      -
+        name: 'add ssh key'
+        copy:
+          src: '/etc/ansible/{{ username }}'
+          dest: '/home/{{ username }}/.ssh/authorized_keys'
+          owner: '{{ username }}'
+          group: '{{ username }}'
+          mode: 0600
+
