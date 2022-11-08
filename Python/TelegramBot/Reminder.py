@@ -1,7 +1,7 @@
 import requests
 from config import gitlab_token
 
-gitlab_url = 'https://gitlab.akb-it.ru/api/v4/projects/10295/issues?state=opened'
+gitlab_url = ''
 
 
 def get_info():
