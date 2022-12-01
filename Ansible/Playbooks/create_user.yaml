@@ -21,13 +21,12 @@
           group: '{{ username }}'
           mode: 0700
       -
-        name: 'add ssh key'
-        copy:
-          src: '/etc/ansible/roles/common/files/{{ username }}.key'
-          dest: '/home/{{ username }}/.ssh/authorized_keys'
-          owner: '{{ username }}'
-          group: '{{ username }}'
-          mode: 0600
+        name: 'set authorized key taken from file'
+        authorized_key:
+          user: '{{ username }}'
+          state: present
+          key: "{{ lookup('file', '/etc/ansible/id_rsa.pub') }}"
+
       -
         name: 'grant sudo access w/o password'
         lineinfile:

@@ -2,8 +2,14 @@ import asyncio
 import json
 import requests
 from aiogram import Bot, Dispatcher, executor
+import os
 
-bot = Bot(token=telegram_bot_token)
+GITLAB_TOKEN = os.getenv('GITLAB_TOKEN')
+GITLAB_URL_OPENED = os.getenv('GITLAB_URL_OPENED')
+CHANNEL_ID = os.getenv('CHANNEL_ID')
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher(bot)
 hash_request = 0
 
@@ -19,9 +25,9 @@ def check_hash(request):  # check old and new request hash
 
 def get_info_opened():  # get all opened issues
     try:
-        authorization = f'Bearer {gitlab_token}'
+        authorization = f'Bearer {GITLAB_TOKEN}'
         headers = {"Authorization": authorization}
-        r = requests.get(gitlab_url_opened, headers=headers)
+        r = requests.get(GITLAB_URL_OPENED, headers=headers)
         data = r.json()
         return data
     except Exception as ex:
@@ -103,7 +109,7 @@ async def send_periodic(time_sleep):
             for upd_id in updated_iid:
                 issue = f"{'Issue: ' + fresh_data[upd_id]['title'] + ' was changed'}\n" \
                         f"{'Issue url: ' + old_dict[upd_id]['web_url']}"
-                await bot.send_message(channel_id, issue)
+                await bot.send_message(CHANNEL_ID, issue)
 
             for add_id in added_iid:
                 issue = f"{'Author: ' + fresh_data[add_id]['author']}\n" \
@@ -111,12 +117,12 @@ async def send_periodic(time_sleep):
                         f"{'Title: ' + fresh_data[add_id]['title']}\n" \
                         f"{'Issue url: ' + fresh_data[add_id]['web_url']}\n" \
                         f"{'Description: ' + fresh_data[add_id]['description']}"
-                await bot.send_message(channel_id, issue)
+                await bot.send_message(CHANNEL_ID, issue)
 
             for close_id in closed_iid:
                 issue = f"{'Issue: ' + old_dict[close_id]['title'] + ' was closed'}\n" \
                         f"{'Issue url: ' + old_dict[close_id]['web_url']}"
-                await bot.send_message(channel_id, issue)
+                await bot.send_message(CHANNEL_ID, issue)
 
             creating_file(fresh_data)
 

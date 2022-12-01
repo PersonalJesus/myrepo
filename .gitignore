@@ -1,0 +1,9 @@
+Python/.idea/*
+Python/.vscode/*
+config*
+.env
+host*
+Ansible/Playbooks/replace_sources.yaml
+Ansible/Playbooks/ntp_client.yaml
+Ansible/Playbooks/create_user_anstra_and_centos.yaml
+Ansible/Playbooks/create_user.yaml

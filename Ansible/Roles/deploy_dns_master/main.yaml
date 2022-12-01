@@ -1,0 +1,29 @@
+---
+- name: Install DNS bind9
+  apt:
+    name: bind9
+    state: present
+
+- name: Create zone folder
+  file:
+    path: /etc/bind/zones
+    state: directory
+
+- name: Template copy files
+  template:
+    src: "{{ item }}"
+    dest: /etc/bind/zones/{{ item | basename | regex_replace('\.j2$', '') }}
+  with_fileglob:
+    - ../templates/*.j2
+
+- name: Template copy files
+  template:
+    src: "{{ item }}"
+    dest: /etc/bind//{{ item | basename | regex_replace('\.j2$', '') }}
+  with_fileglob:
+    - ../templates/config/*.j2
+
+- name: restart DNS
+  service:
+    name: bind9
+    state: restarted

@@ -1,0 +1,64 @@
+- name: Create a volume group repo on top of /dev/sdb 
+  community.general.lvg:
+    vg: repo
+    pvs: /dev/sdb
+
+- name: Create a logical volume the size of all remaining space in the volume group
+  community.general.lvol:
+    vg: repo
+    lv: data
+    size: 100%FREE
+
+- name: Create a ext4 filesystem on /dev/repo/data and check disk blocks
+  community.general.filesystem:
+    fstype: ext4
+    dev: /dev/repo/data
+    opts: -E nodiscard
+
+- name: Create directory /opt/repo if does not exist
+  file:
+    path: /opt/repo
+    state: directory
+    mode: '0755'
+
+- name: mount the lv on /opt/repo
+  mount:
+    path: /opt/repo
+    src: /dev/repo/data
+    fstype: ext4
+    state: mounted
+
+- name: Update apt cache and install Nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Install apt-mirror
+  apt:
+    name: apt-mirror
+    state: present
+
+- name: Apply Nginx template
+  template:
+    src: mirror.conf.j2
+    dest: /etc/nginx/sites-available/mirror.conf
+
+- name: Apply apt-mirror template
+  template:
+    src: mirror.list.j2
+    dest: /etc/apt/mirror.list
+
+- name: Enable new site
+  file:
+    src: /etc/nginx/sites-available/mirror.conf
+    dest: /etc/nginx/sites-enabled/mirror.conf
+    state: link
+
+- name: Execute apt-mirror
+  command: apt-mirror
+
+- name: restart NGINX
+  service:
+    name: nginx
+    state: restarted
