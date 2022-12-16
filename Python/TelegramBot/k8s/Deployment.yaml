@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab_telegram_bot_deploy
+  labels:
+    app: gitlab_telegram_bot
+  spec:
+  selector:
+    matchLabels:
+    app: gitlab_telegram_bot
+    replicas: 1
+  template:
+    metadata:
+    labels:
+      app: gitlab_telegram_bot
+    spec:
+    containers:
+    - name: gitlab_telegram_bot
+      image: personaljesus/gitlab_telegram_bot:1.0.3
+      envFrom:
+        - configMapRef:
+            name: gitlab_telegram_bot_configmap
+        - secretRef:
+            name: 
+      imagePullPolicy: Always
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "50m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"

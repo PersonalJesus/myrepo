@@ -1,0 +1,222 @@
+vars: 
+  path: '/opt/postgresql/postgresql/11/main'
+  standby: 'backup-standby=y'
+  pg1: 'pg1-path=/opt/postgresql/postgresql/11/main'
+  pg2: 'pg2-path=/opt/postgresql/postgresql/11/main'
+  pg3: 'pg3-path=/opt/postgresql/postgresql/11/main'
+
+  pozvl_servers: '[pozvl-prod-geop]'
+  pozvl_ip1: '10.210.4.31'
+  pozvl_ip2: '10.210.4.32'
+  pozvl_ip3: '10.210.4.33'
+
+  pil_servers: '[pil-prod-geop]'
+  pil_ip1: '10.210.4.34'
+  pil_ip2: '10.210.4.35'
+  pil_ip3: '10.210.4.36'
+
+  pib_servers: '[pib-prod-geop]'
+  pib_ip1: '10.210.4.37'
+  pib_ip2: '10.210.4.38'
+  pib_ip3: '10.210.4.39'
+
+  pud_servers: '[pud-prod-geop]'
+  pud_ip1: '10.210.4.46'
+  pud_ip2: '10.210.4.47'
+  pud_ip3: '10.210.4.48'
+
+  pam_servers: '[pam-prod-geop]'
+  pam_ip1: '10.210.4.67'
+  pam_ip2: '10.210.4.68'
+  pam_ip3: '10.210.4.69'
+
+  pnsi_servers: '[pnsi-prod-geop]'
+  pnsi_ip1: '10.210.4.70'
+  pnsi_ip2: '10.210.4.71'
+  pnsi_ip3: '10.210.4.72'
+
+  ppod_servers: '[ppod-prod-geop]'
+  ppod_ip1: '10.210.4.79'
+  ppod_ip2: '10.210.4.80'
+  ppod_ip3: '10.210.4.81'
+
+  lkl_servers: '[lkl-prod-geop]'
+  lkl_ip1: '10.210.4.82'
+  lkl_ip2: '10.210.4.83'
+  lkl_ip3: '10.210.4.84'
+
+  phd_servers: '[phd-prod-geop]'
+  phd_ip1: '10.210.4.92'
+  phd_ip2: '10.210.4.93'
+  phd_ip3: '10.210.4.94'
+
+  pia_servers: '[pia-prod-geop]'
+  pia_ip1: '10.210.4.101'
+  pia_ip2: '10.210.4.102'
+  pia_ip3: '10.210.4.103'
+
+  pul_servers: '[pul-prod-geop]'
+  pul_ip1: '10.210.4.104'
+  pul_ip2: '10.210.4.105'
+  pul_ip3: '10.210.4.106'
+
+  pvv_servers: '[pvv-prod-geop]'
+  pvv_ip1: '10.210.4.107'
+  pvv_ip2: '10.210.4.108'
+  pvv_ip3: '10.210.4.109'
+
+  plk_servers: '[plk-prod-geop]'
+  plk_ip1: '10.210.4.114'
+  plk_ip2: '10.210.4.115'
+  plk_ip3: '10.210.4.116'
+
+  popd_servers: '[popd-prod-geop]'
+  popd_ip1: '10.210.4.122'
+  popd_ip2: '10.210.4.123'
+  popd_ip3: '10.210.4.124'
+
+  pup_servers: '[pup-prod-geop]'
+  pup_ip1: '10.210.4.125'
+  pup_ip2: '10.210.4.126'
+  pup_ip3: '10.210.4.127'
+{{ pozvl_servers }}
+pg1-host={{ pozvl_ip1 }}
+{{ pg1 }}
+pg2-host={{ pozvl_ip2 }}
+{{ pg2 }}
+pg3-host={{ pozvl_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pil_servers }}
+pg1-host={{ pil_ip1 }}
+{{ pg1 }}
+pg2-host={{ pil_ip2 }}
+{{ pg2 }}
+pg3-host={{ pil_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pib_servers }}
+pg1-host={{ pib_ip1 }}
+{{ pg1 }}
+pg2-host={{ pib_ip2 }}
+{{ pg2 }}
+pg3-host={{ pib_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pud_servers }}
+pg1-host={{ pud_ip1 }}
+{{ pg1 }}
+pg2-host={{ pud_ip2 }}
+{{ pg2 }}
+pg3-host={{ pud_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pam_servers }}
+pg1-host={{ pam_ip1 }}
+{{ pg1 }}
+pg2-host={{ pam_ip2 }}
+{{ pg2 }}
+pg3-host={{ pam_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pnsi_servers }}
+pg1-host={{ pnsi_ip1 }}
+{{ pg1 }}
+pg2-host={{ pnsi_ip2 }}
+{{ pg2 }}
+pg3-host={{ pnsi_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ ppod_servers }}
+pg1-host={{ pnsi_ip1 }}
+{{ pg1 }}
+pg2-host={{ pnsi_ip2 }}
+{{ pg2 }}
+pg3-host={{ pnsi_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ lkl_servers }}
+pg1-host={{ lkl_ip1 }}
+{{ pg1 }}
+pg2-host={{ lkl_ip2 }}
+{{ pg2 }}
+pg3-host={{ lkl_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ phd_servers }}
+pg1-host={{ phd_ip1 }}
+{{ pg1 }}
+pg2-host={{ phd_ip2 }}
+{{ pg2 }}
+pg3-host={{ phd_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pia_servers }}
+pg1-host={{ pia_ip1 }}
+{{ pg1 }}
+pg2-host={{ pia_ip2 }}
+{{ pg2 }}
+pg3-host={{ pia_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pul_servers }}
+pg1-host={{ pul_ip1 }}
+{{ pg1 }}
+pg2-host={{ pul_ip2 }}
+{{ pg2 }}
+pg3-host={{ pul_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pvv_servers }}
+pg1-host={{ pvv_ip1 }}
+{{ pg1 }}
+pg2-host={{ pvv_ip2 }}
+{{ pg2 }}
+pg3-host={{ pvv_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ plk_servers }}
+pg1-host={{ plk_ip1 }}
+{{ pg1 }}
+pg2-host={{ plk_ip2 }}
+{{ pg2 }}
+pg3-host={{ plk_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ popd_servers }}
+pg1-host={{ popd_ip1 }}
+{{ pg1 }}
+pg2-host={{ popd_ip2 }}
+{{ pg2 }}
+pg3-host={{ popd_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+{{ pup_servers }}
+pg1-host={{ pup_ip1 }}
+{{ pg1 }}
+pg2-host={{ pup_ip2 }}
+{{ pg2 }}
+pg3-host={{ pup_ip3 }}
+{{ pg3 }}
+{{ standby }}
+
+[global]
+repo1-path=/mnt/nfs/pgbackrest
+repo1-retention-full=2
+repo1-retention-diff=3
+start-fast=y
+

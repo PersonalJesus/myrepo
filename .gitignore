@@ -7,3 +7,4 @@ Ansible/Playbooks/replace_sources.yaml
 Ansible/Playbooks/ntp_client.yaml
 Ansible/Playbooks/create_user_anstra_and_centos.yaml
 Ansible/Playbooks/create_user.yaml
+Python/TelegramBot/k8s/bot_secrets.yaml

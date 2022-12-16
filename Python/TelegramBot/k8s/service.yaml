@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab_telegram_service
+spec:
+  type: LoadBalancer
+  selector:
+    app: gitlab_telegram_bot
+  # ports:
+  # - port: <Port>
+  #   targetPort: <Target Port>

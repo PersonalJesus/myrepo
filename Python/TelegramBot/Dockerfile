@@ -1,10 +1,15 @@
 FROM python:3.8-slim-buster
 
-WORKDIR /reminder
+RUN addgroup --gid 1001 --system app && \
+    adduser --no-create-home --shell /bin/false --disabled-password --uid 1001 --system --group app
 
-COPY requirements.txt requirements.txt
-RUN  pip3 install -r requirements.txt
+USER app
 
-COPY . .
+WORKDIR /app
+
+COPY  requirements.txt requirements.txt
+RUN   pip3 install -H --user -r requirements.txt
+
+COPY  . /app/
 
 CMD [ "python3","-u","./reminder.py" ]

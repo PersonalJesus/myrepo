@@ -1,0 +1,122 @@
+---
+- name: Create user
+  user:
+    name: '{{ username }}'
+    state: present
+    shell: /bin/bash
+    system: no
+    createhome: yes
+
+- name: Download pgbackrest_pkg.tar.gz
+  get_url:
+    url: https://nexus.rosleshoz.ru/repository/PgBackrest/repository/PgBackrest/pgbackrest_pkg.tar.gz
+    dest: /home/cloud
+    mode: '0644'
+
+- name: Extract pgbackrest_pkg.tar.gz into /home/cloud
+  unarchive:
+    src: /home/cloud/pgbackrest_pkg.tar.gz
+    dest: /home/cloud/
+    remote_src: yes
+
+- name: Install .dep packages
+  shell: dpkg -i /home/cloud/pgbackrest_pkg/*.deb
+
+- name: Update apt cache and install postgresql-client
+  apt:
+    name: postgresql-client
+    state: present
+    update_cache: yes
+
+- name: Install libxml2 
+  apt:
+    name: libxml2 
+    state: present
+
+- name: Copy file pgbackrest with owner and permissions
+  copy:
+    src: /home/cloud/pgbackrest_pkg/pgbackrest 
+    dest: /usr/bin/pgbackrest
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0755'
+    remote_src: true
+
+- name: Copy file pgbackrest_exporter.service with owner and permissions
+  copy:
+    src: /home/cloud/pgbackrest_pkg/pgbackrest_exporter.service
+    dest: /etc/systemd/system/pgbackrest_exporter.service
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0755'
+    remote_src: true
+
+- name: Copy file pgbackrest_exporter with owner and permissions
+  copy:
+    src: /home/cloud/pgbackrest_pkg/pgbackrest_exporter 
+    dest: /usr/bin/pgbackrest_exporter
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0755'
+    remote_src: true
+
+- name: Creates directory /etc/pgbackrest
+  file:
+    path: /etc/pgbackrest
+    state: directory
+
+- name: Copy file pgbackrest.conf
+  template:
+    src: pgbackrest.conf.j2
+    dest: /etc/pgbackrest/pgbackrest.conf
+
+# - name: Copy file pgbackrest.conf with owner and permissions
+#   copy:
+#     src: /home/cloud/pgbackrest_pkg/pgbackrest.conf 
+#     dest: /etc/pgbackrest/pgbackrest.conf
+#     owner: '{{ username }}'
+#     group: '{{ username }}'
+#     mode: '0640'
+#     remote_src: true
+
+- name: Creates directory /var/log/pgbackrest
+  file:
+    path: /var/log/pgbackrest
+    state: directory
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0770'
+
+- name: Creates directory /etc/pgbackrest/conf.d
+  file:
+    path: /etc/pgbackrest/conf.d
+    state: directory
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0770'
+
+- name: Creates directory /mnt/nfs/pgbackrest
+  file:
+    path: /mnt/nfs/pgbackrest
+    state: directory
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    mode: '0750'
+    recurse: yes
+
+- name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: pgbackrest_exporter.service
+    enabled: yes
+
+- name: Recursively remove directory
+  file:
+    path: /home/cloud/pgbackrest_pkg
+    state: absent
+
+- name: Recursively remove directory
+  file:
+    path: /home/cloud/pgbackrest_pkg.tar.gz
+    state: absent
